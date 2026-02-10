@@ -282,8 +282,8 @@
         <div class="card">
             <div class="corner-decoration top-left">🌹</div>
             <div class="corner-decoration top-right">🌹</div>
-            <div class="corner-decoration bottom-left">💐</div>
-            <div class="corner-decoration bottom-right">💐</div>
+            <div class="corner-decoration bottom-left">🌹</div>
+            <div class="corner-decoration bottom-right">🌹</div>
             
             <div class="sparkles" id="sparkles"></div>
             
@@ -296,6 +296,7 @@
                 <div class="sub-text">
                     You make my heart skip a beat,<br>
                     and every moment with you feels like magic ✨
+                    Click " Yes " four times if you want to..
                 </div>
             </div>
             
@@ -362,7 +363,7 @@
             celebration.style.display = 'block';
             
             if (clickCount === 1) {
-                response.textContent = "Really? Click again if you're sure! 💕";
+                response.textContent = " Click again! 💕";
                 
                 // Create celebration on 1st click
                 for (let i = 0; i < 50; i++) {
@@ -378,7 +379,7 @@
                     }, i * 30);
                 }
             } else if (clickCount === 2) {
-                response.textContent = "Are you absolutely sure? 🥰";
+                response.textContent = "Are you sure?🥰";
                 
                 // Create celebration on 2nd click
                 for (let i = 0; i < 50; i++) {
@@ -394,7 +395,7 @@
                     }, i * 30);
                 }
             } else if (clickCount === 3) {
-                response.textContent = "Almost there! One more click! 💖✨";
+                response.textContent = "One more click!💖✨";
                 
                 // Create celebration on 3rd click
                 for (let i = 0; i < 50; i++) {
@@ -449,14 +450,14 @@
         // The ONLY solution is to call audio.play() synchronously inside a real
         // user gesture. We hook it into sayYes() so music starts the moment
         // she taps "Yes! 💕" — feels instant and natural, no banner needed.
-        let musicStarted = false;
+        let musicStarted = true;
 
         function startMusic() {
             if (musicStarted) return;
             const music = document.getElementById('bgMusic');
             music.play().then(() => {
                 musicStarted = true;
-            }).catch(e => console.log('Audio play failed:', e));
+            }).catch(e => console.log('Audio play pass:', e));
         }
     </script>
 </body>
