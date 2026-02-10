@@ -4,16 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will You Be My Valentine? 💕</title>
-    <!-- EmailJS - sends email automatically without opening mail app -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-        // ⚠️ SETUP: Replace these 3 values with your EmailJS credentials
-        // Sign up free at https://emailjs.com → add Gmail service → create template
-        const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";   // Account → API Keys
-        const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";   // Email Services tab
-        const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";  // Email Templates tab
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-    </script>
     <style>
         * {
             margin: 0;
@@ -32,63 +22,7 @@
             position: relative;
         }
 
-        /* ===================== SPLASH SCREEN ===================== */
-        #splash {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: linear-gradient(135deg, #ff6b9d 0%, #c33764 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        #splash.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(1.05);
-        }
-
-        .splash-heart {
-            font-size: 90px;
-            animation: splashPulse 1.4s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(255,255,255,0.5));
-        }
-
-        @keyframes splashPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.18); }
-        }
-
-        .splash-text {
-            margin-top: 28px;
-            color: white;
-            font-size: 22px;
-            font-style: italic;
-            letter-spacing: 1px;
-            opacity: 0.92;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .splash-tap {
-            margin-top: 18px;
-            color: rgba(255,255,255,0.75);
-            font-size: 15px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            animation: blink 1.6s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 0.75; }
-            50% { opacity: 0.2; }
-        }
-
-        /* ===================== MAIN CARD ===================== */
+        /* Floating hearts animation */
         .heart-bg {
             position: absolute;
             width: 100%;
@@ -109,8 +43,12 @@
                 transform: translateY(100vh) rotate(0deg);
                 opacity: 0;
             }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
             100% {
                 transform: translateY(-100px) rotate(360deg);
                 opacity: 0;
@@ -121,14 +59,6 @@
             width: 90vw;
             max-width: 400px;
             perspective: 1000px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
-        }
-
-        .card-container.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .card {
@@ -142,22 +72,45 @@
         }
 
         @keyframes cardPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
         }
 
+        /* Decorative corner roses */
         .corner-decoration {
             position: absolute;
             font-size: 40px;
             opacity: 0.6;
         }
 
-        .corner-decoration.top-left    { top: 10px; left: 10px; }
-        .corner-decoration.top-right   { top: 10px; right: 10px; }
-        .corner-decoration.bottom-left  { bottom: 10px; left: 10px; }
-        .corner-decoration.bottom-right { bottom: 10px; right: 10px; }
+        .corner-decoration.top-left {
+            top: 10px;
+            left: 10px;
+        }
 
-        .header { text-align: center; margin-bottom: 25px; }
+        .corner-decoration.top-right {
+            top: 10px;
+            right: 10px;
+        }
+
+        .corner-decoration.bottom-left {
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .corner-decoration.bottom-right {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
         .big-heart {
             font-size: 80px;
@@ -167,12 +120,21 @@
         }
 
         @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            25%       { transform: scale(1.15); }
-            50%       { transform: scale(1); }
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.15);
+            }
+            50% {
+                transform: scale(1);
+            }
         }
 
-        .message { text-align: center; margin: 25px 0; }
+        .message {
+            text-align: center;
+            margin: 25px 0;
+        }
 
         .main-text {
             font-size: 28px;
@@ -222,11 +184,14 @@
             box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
         }
 
+
+
         .sparkles {
             position: absolute;
             width: 100%;
             height: 100%;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             pointer-events: none;
         }
 
@@ -238,8 +203,14 @@
         }
 
         @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-            50%       { opacity: 1; transform: scale(1.2) rotate(180deg); }
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
         }
 
         .rose-border {
@@ -249,6 +220,7 @@
             opacity: 0.7;
         }
 
+        /* Response message */
         .response {
             text-align: center;
             margin-top: 20px;
@@ -260,15 +232,23 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .celebration {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 1000;
         }
@@ -287,245 +267,197 @@
                 opacity: 0;
             }
         }
-
-        /* Music indicator */
-        #music-indicator {
-            position: fixed;
-            bottom: 18px;
-            right: 18px;
-            background: rgba(255,107,157,0.18);
-            border: 1.5px solid rgba(255,107,157,0.35);
-            border-radius: 50px;
-            padding: 7px 14px;
-            font-size: 13px;
-            color: #c33764;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            backdrop-filter: blur(6px);
-            cursor: pointer;
-            transition: background 0.2s;
-            z-index: 100;
-            user-select: none;
-        }
-        #music-indicator:hover { background: rgba(255,107,157,0.28); }
-        #music-indicator .bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 2px;
-            height: 14px;
-        }
-        #music-indicator .bars span {
-            width: 3px;
-            background: #c33764;
-            border-radius: 2px;
-            animation: bar 0.7s ease-in-out infinite alternate;
-        }
-        #music-indicator .bars span:nth-child(1) { height: 6px;  animation-delay: 0s; }
-        #music-indicator .bars span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
-        #music-indicator .bars span:nth-child(3) { height: 8px;  animation-delay: 0.3s; }
-        #music-indicator .bars span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
-        @keyframes bar {
-            from { transform: scaleY(0.4); }
-            to   { transform: scaleY(1); }
-        }
-        #music-indicator.paused .bars span { animation-play-state: paused; }
     </style>
 </head>
 <body>
-
-    <!-- ===== AUDIO ===== -->
+    <!-- Background Music - Place audio.mp3 in the same folder as this HTML file -->
+    <!-- NOTE: autoplay removed — iOS Safari blocks it. Music starts on first user tap instead. -->
     <audio id="bgMusic" loop preload="auto">
         <source src="audio.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- ===== SPLASH (first tap starts music) ===== -->
-    <div id="splash" onclick="openCard()">
-        <div class="splash-heart">💝</div>
-        <div class="splash-text">I have something to ask you…</div>
-        <div class="splash-tap">✨ tap to open ✨</div>
-    </div>
-
-    <!-- ===== MAIN CARD ===== -->
     <div class="heart-bg" id="heartBg"></div>
-
-    <div class="card-container" id="cardContainer">
+    
+    <div class="card-container">
         <div class="card">
             <div class="corner-decoration top-left">🌹</div>
             <div class="corner-decoration top-right">🌹</div>
-            <div class="corner-decoration bottom-left">🌹</div>
-            <div class="corner-decoration bottom-right">🌹</div>
-
+            <div class="corner-decoration bottom-left">💐</div>
+            <div class="corner-decoration bottom-right">💐</div>
+            
             <div class="sparkles" id="sparkles"></div>
-
+            
             <div class="header">
-                <div class="big-heart">💝</div>
+                <div class="big-heart">💐</div>
             </div>
-
+            
             <div class="message">
                 <div class="main-text">Will You Be My Valentine?</div>
                 <div class="sub-text">
                     You make my heart skip a beat,<br>
                     and every moment with you feels like magic ✨
-                    Click "Yes" four times if you want to.
                 </div>
             </div>
-
+            
             <div class="rose-border">🌹 💕 🌹</div>
-
+            
             <div class="button-container">
                 <button class="btn btn-yes" onclick="sayYes()">Yes! 💕</button>
             </div>
-
+            
             <div class="response" id="response"></div>
         </div>
-    </div>
-
-    <!-- Music toggle pill -->
-    <div id="music-indicator" onclick="toggleMusic()">
-        <div class="bars">
-            <span></span><span></span><span></span><span></span>
-        </div>
-        <span id="music-label">Music on</span>
     </div>
 
     <div class="celebration" id="celebration"></div>
 
     <script>
-        let musicPlaying = false;
-
-        /* ── Splash tap → start music + show card ── */
-        function openCard() {
-            const splash    = document.getElementById('splash');
-            const container = document.getElementById('cardContainer');
-            const music     = document.getElementById('bgMusic');
-
-            // Play music on this direct user gesture (works on iOS/Android)
-            music.play().then(() => {
-                musicPlaying = true;
-            }).catch(err => {
-                console.warn('Audio play failed:', err);
-            });
-
-            // Hide splash, reveal card
-            splash.classList.add('hidden');
-            setTimeout(() => {
-                splash.style.display = 'none';
-                container.classList.add('visible');
-            }, 800);
-        }
-
-        /* ── Music toggle pill ── */
-        function toggleMusic() {
-            const music     = document.getElementById('bgMusic');
-            const label     = document.getElementById('music-label');
-            const indicator = document.getElementById('music-indicator');
-
-            if (musicPlaying) {
-                music.pause();
-                musicPlaying = false;
-                label.textContent = 'Music off';
-                indicator.classList.add('paused');
-            } else {
-                music.play().catch(() => {});
-                musicPlaying = true;
-                label.textContent = 'Music on';
-                indicator.classList.remove('paused');
-            }
-        }
-
-        /* ── Floating hearts ── */
+        // Create floating hearts
         function createFloatingHearts() {
             const heartBg = document.getElementById('heartBg');
-            const hearts  = ['💕', '💖', '💗', '💝', '💓'];
+            const hearts = ['💕', '💖', '💗', '💝', '💓'];
+            
             for (let i = 0; i < 15; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'floating-heart';
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
                 heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay    = Math.random() * 6 + 's';
+                heart.style.animationDelay = Math.random() * 6 + 's';
                 heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
                 heartBg.appendChild(heart);
             }
         }
 
-        /* ── Sparkles ── */
+        // Create sparkles
         function createSparkles() {
-            const container = document.getElementById('sparkles');
+            const sparklesContainer = document.getElementById('sparkles');
             const positions = [
-                { top: '10%',  left: '10%'  },
-                { top: '10%',  right: '10%' },
-                { bottom: '20%', left: '15%'  },
+                { top: '10%', left: '10%' },
+                { top: '10%', right: '10%' },
+                { bottom: '20%', left: '15%' },
                 { bottom: '20%', right: '15%' },
-                { top: '50%',  left: '5%'   },
-                { top: '50%',  right: '5%'  }
+                { top: '50%', left: '5%' },
+                { top: '50%', right: '5%' }
             ];
-            positions.forEach((pos, i) => {
+            
+            positions.forEach((pos, index) => {
                 const sparkle = document.createElement('div');
-                sparkle.className   = 'sparkle';
+                sparkle.className = 'sparkle';
                 sparkle.textContent = '✨';
                 Object.assign(sparkle.style, pos);
-                sparkle.style.animationDelay = (i * 0.3) + 's';
-                container.appendChild(sparkle);
+                sparkle.style.animationDelay = (index * 0.3) + 's';
+                sparklesContainer.appendChild(sparkle);
             });
         }
 
-        /* ── Confetti helper ── */
-        function launchConfetti() {
-            const celebration = document.getElementById('celebration');
-            celebration.style.display = 'block';
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const c = document.createElement('div');
-                    c.className = 'confetti';
-                    c.style.left       = Math.random() * 100 + '%';
-                    c.style.background = ['#ff6b9d','#c33764','#ffd6ea','#ffb3d9'][Math.floor(Math.random() * 4)];
-                    c.style.animationDelay = Math.random() * 0.5 + 's';
-                    celebration.appendChild(c);
-                    setTimeout(() => c.remove(), 3000);
-                }, i * 30);
-            }
-        }
-
-        /* ── Yes button ── */
+        // Click counter
         let clickCount = 0;
 
+        // Yes button action
         function sayYes() {
+            startMusic(); // ← starts music on first tap (iOS-safe)
             clickCount++;
             const response = document.getElementById('response');
-            launchConfetti();
-
-            const messages = [
-                "Click again💕",
-                "Are you sure? 🥰",
-                "One more click! 💖✨",
-                "Yay! You just made me the happiest! 💕🎉"
-            ];
-
-            response.textContent = messages[Math.min(clickCount - 1, 3)];
-
-            if (clickCount >= 4) {
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'block';
+            
+            if (clickCount === 1) {
+                response.textContent = "Really? Click again if you're sure! 💕";
+                
+                // Create celebration on 1st click
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + '%';
+                        confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
+                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                        celebration.appendChild(confetti);
+                        
+                        setTimeout(() => confetti.remove(), 3000);
+                    }, i * 30);
+                }
+            } else if (clickCount === 2) {
+                response.textContent = "Are you absolutely sure? 🥰";
+                
+                // Create celebration on 2nd click
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + '%';
+                        confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
+                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                        celebration.appendChild(confetti);
+                        
+                        setTimeout(() => confetti.remove(), 3000);
+                    }, i * 30);
+                }
+            } else if (clickCount === 3) {
+                response.textContent = "Almost there! One more click! 💖✨";
+                
+                // Create celebration on 3rd click
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + '%';
+                        confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
+                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                        celebration.appendChild(confetti);
+                        
+                        setTimeout(() => confetti.remove(), 3000);
+                    }, i * 30);
+                }
+            } else if (clickCount >= 4) {
+                response.textContent = "Yay! You just made me the happiest! 💕🎉";
+                
+                // Send email notification only after 4th click
                 sendEmail();
+                
+                // Create more celebration
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + '%';
+                        confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
+                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                        celebration.appendChild(confetti);
+                        
+                        setTimeout(() => confetti.remove(), 3000);
+                    }, i * 30);
+                }
             }
         }
 
-        /* ── Email notification (auto-sends via EmailJS, no mail app opens) ── */
+        // Send email notification
         function sendEmail() {
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                to_email : "rianbist3@gmail.com",
-                subject  : "💕 Valentine Response - She Said YES!",
-                message  : "She said YES! 💖🎉\n\nShe clicked YES on your Valentine card!\n\nTime: " + new Date().toLocaleString(),
-                reply_to : "rianbist3@gmail.com"
-            }).then(() => {
-                console.log("💌 Email sent successfully!");
-            }).catch((err) => {
-                console.error("Email failed:", err);
-            });
+            const subject = encodeURIComponent('💕 Valentine Response - She Said YES!');
+            const body = encodeURIComponent('Congratulations! She wants to be your Valentine! 💖🎉\n\nShe clicked YES on your Valentine card!\n\nTime: ' + new Date().toLocaleString());
+            
+            // Open default email client
+            window.location.href = `mailto:rianbist3@gmail.com?subject=${subject}&body=${body}`;
         }
 
-        /* ── Init ── */
+        // Initialize
         createFloatingHearts();
         createSparkles();
+
+        // ── iOS-compatible audio ──────────────────────────────────────────────
+        // iOS Safari BLOCKS autoplay completely — no workaround exists.
+        // The ONLY solution is to call audio.play() synchronously inside a real
+        // user gesture. We hook it into sayYes() so music starts the moment
+        // she taps "Yes! 💕" — feels instant and natural, no banner needed.
+        let musicStarted = false;
+
+        function startMusic() {
+            if (musicStarted) return;
+            const music = document.getElementById('bgMusic');
+            music.play().then(() => {
+                musicStarted = true;
+            }).catch(e => console.log('Audio play failed:', e));
+        }
     </script>
 </body>
 </html>
