@@ -296,6 +296,7 @@
                 <div class="sub-text">
                     You make my heart skip a beat,<br>
                     and every moment with you feels like magic ✨
+                    Click “Yes” four times if you want to.
                 </div>
             </div>
             
@@ -361,7 +362,7 @@
             celebration.style.display = 'block';
             
             if (clickCount === 1) {
-                response.textContent = "Click again if you're sure! 💕";
+                response.textContent = "Click again 💕";
                 
                 // Create celebration on 1st click
                 for (let i = 0; i < 50; i++) {
@@ -377,7 +378,7 @@
                     }, i * 30);
                 }
             } else if (clickCount === 2) {
-                response.textContent = "Are you absolutely sure? 🥰";
+                response.textContent = "Are you sure?💕 ";
                 
                 // Create celebration on 2nd click
                 for (let i = 0; i < 50; i++) {
@@ -393,7 +394,7 @@
                     }, i * 30);
                 }
             } else if (clickCount === 3) {
-                response.textContent = "Almost there! One more click! 💖✨";
+                response.textContent = "One more click! 💖✨";
                 
                 // Create celebration on 3rd click
                 for (let i = 0; i < 50; i++) {
