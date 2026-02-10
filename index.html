@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Will You Be My Valentine? 💕</title>
     <style>
         * {
@@ -20,6 +20,47 @@
             align-items: center;
             overflow: hidden;
             position: relative;
+        }
+
+        /* Start overlay for mobile audio */
+        .start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 182, 193, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+
+        .start-overlay.hidden {
+            display: none;
+        }
+
+        .start-button {
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c33764 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         /* Floating hearts animation */
@@ -184,7 +225,9 @@
             box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
         }
 
-
+        .btn-yes:active {
+            transform: translateY(-1px) scale(1.02);
+        }
 
         .sparkles {
             position: absolute;
@@ -267,12 +310,38 @@
                 opacity: 0;
             }
         }
+
+        /* Mobile optimization */
+        @media (max-width: 480px) {
+            .main-text {
+                font-size: 24px;
+            }
+            
+            .sub-text {
+                font-size: 14px;
+            }
+            
+            .big-heart {
+                font-size: 60px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Background Music - Place audio.mp3 in the same folder as this HTML file -->
-    <audio id="bgMusic" autoplay loop>
+    <!-- Start Overlay for Audio -->
+    <div class="start-overlay" id="startOverlay">
+        <button class="start-button" onclick="startExperience()">💕 Tap to Start 💕</button>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
         <source src="audio.mp3" type="audio/mpeg">
+        <source src="./audio.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -295,8 +364,8 @@
                 <div class="main-text">Will You Be My Valentine?</div>
                 <div class="sub-text">
                     You make my heart skip a beat,<br>
-                    and every moment with you feels like magic ✨
-                    Click “Yes” four times if you want to.
+                    and every moment with you feels like magic ✨<br>
+                    Click "Yes" four times if you want to.
                 </div>
             </div>
             
@@ -313,6 +382,20 @@
     <div class="celebration" id="celebration"></div>
 
     <script>
+        // Start experience and play audio
+        function startExperience() {
+            const overlay = document.getElementById('startOverlay');
+            const music = document.getElementById('bgMusic');
+            
+            overlay.classList.add('hidden');
+            
+            // Try to play music
+            music.play().catch(e => {
+                console.log('Audio autoplay prevented:', e);
+                // Audio might not play on some devices, that's okay
+            });
+        }
+
         // Create floating hearts
         function createFloatingHearts() {
             const heartBg = document.getElementById('heartBg');
@@ -351,6 +434,25 @@
             });
         }
 
+        // Create confetti celebration
+        function createConfetti() {
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'block';
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    celebration.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
         // Click counter
         let clickCount = 0;
 
@@ -358,99 +460,57 @@
         function sayYes() {
             clickCount++;
             const response = document.getElementById('response');
-            const celebration = document.getElementById('celebration');
-            celebration.style.display = 'block';
+            
+            // Try to play music if not already playing
+            const music = document.getElementById('bgMusic');
+            if (music.paused) {
+                music.play().catch(e => console.log('Audio play failed:', e));
+            }
+            
+            createConfetti();
             
             if (clickCount === 1) {
                 response.textContent = "Click again 💕";
-                
-                // Create celebration on 1st click
-                for (let i = 0; i < 50; i++) {
-                    setTimeout(() => {
-                        const confetti = document.createElement('div');
-                        confetti.className = 'confetti';
-                        confetti.style.left = Math.random() * 100 + '%';
-                        confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
-                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                        celebration.appendChild(confetti);
-                        
-                        setTimeout(() => confetti.remove(), 3000);
-                    }, i * 30);
-                }
             } else if (clickCount === 2) {
-                response.textContent = "Are you sure?💕 ";
-                
-                // Create celebration on 2nd click
-                for (let i = 0; i < 50; i++) {
-                    setTimeout(() => {
-                        const confetti = document.createElement('div');
-                        confetti.className = 'confetti';
-                        confetti.style.left = Math.random() * 100 + '%';
-                        confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
-                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                        celebration.appendChild(confetti);
-                        
-                        setTimeout(() => confetti.remove(), 3000);
-                    }, i * 30);
-                }
+                response.textContent = "Are you sure? 💕";
             } else if (clickCount === 3) {
                 response.textContent = "One more click! 💖✨";
-                
-                // Create celebration on 3rd click
-                for (let i = 0; i < 50; i++) {
-                    setTimeout(() => {
-                        const confetti = document.createElement('div');
-                        confetti.className = 'confetti';
-                        confetti.style.left = Math.random() * 100 + '%';
-                        confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
-                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                        celebration.appendChild(confetti);
-                        
-                        setTimeout(() => confetti.remove(), 3000);
-                    }, i * 30);
-                }
             } else if (clickCount >= 4) {
                 response.textContent = "Yay! You just made me the happiest! 💕🎉";
                 
-                // Send email notification only after 4th click
-                sendEmail();
-                
-                // Create more celebration
-                for (let i = 0; i < 50; i++) {
-                    setTimeout(() => {
-                        const confetti = document.createElement('div');
-                        confetti.className = 'confetti';
-                        confetti.style.left = Math.random() * 100 + '%';
-                        confetti.style.background = ['#ff6b9d', '#c33764', '#ffd6ea', '#ffb3d9'][Math.floor(Math.random() * 4)];
-                        confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                        celebration.appendChild(confetti);
-                        
-                        setTimeout(() => confetti.remove(), 3000);
-                    }, i * 30);
-                }
+                // Send notification
+                sendNotification();
             }
         }
 
-        // Send email notification
-        function sendEmail() {
-            const subject = encodeURIComponent('💕 Valentine Response - She Said YES!');
-            const body = encodeURIComponent('Congratulations Rian ! She wants to be your Valentine! 💖🎉\n\nShe clicked YES on your Valentine card!\n\nTime: ' + new Date().toLocaleString());
+        // Send notification (using Web Share API for mobile or FormSubmit)
+        function sendNotification() {
+            const timestamp = new Date().toLocaleString();
             
-            // Open default email client
-            window.location.href = `mailto:rianbist3@gmail.com?subject=${subject}&body=${body}`;
+            // Try using Web Share API (works great on mobile)
+            if (navigator.share) {
+                navigator.share({
+                    title: '💕 Valentine Response - She Said YES!',
+                    text: `She wants to be your Valentine! 💖🎉\n\nTime: ${timestamp}`,
+                }).catch(err => console.log('Share failed:', err));
+            } else {
+                // Fallback: Open email client
+                const subject = encodeURIComponent('💕 Valentine Response - She Said YES!');
+                const body = encodeURIComponent(`Congratulations Rian! She wants to be your Valentine! 💖🎉\n\nShe clicked YES on your Valentine card!\n\nTime: ${timestamp}`);
+                window.open(`mailto:rianbist3@gmail.com?subject=${subject}&body=${body}`, '_blank');
+            }
+            
+            // Also save to localStorage as backup
+            localStorage.setItem('valentineResponse', JSON.stringify({
+                accepted: true,
+                timestamp: timestamp,
+                clicks: clickCount
+            }));
         }
 
         // Initialize
         createFloatingHearts();
         createSparkles();
-        
-        // Ensure music plays on user interaction (browsers block autoplay without interaction)
-        document.addEventListener('click', function() {
-            const music = document.getElementById('bgMusic');
-            if (music.paused) {
-                music.play().catch(e => console.log('Audio play failed:', e));
-            }
-        }, { once: true });
     </script>
 </body>
 </html>
