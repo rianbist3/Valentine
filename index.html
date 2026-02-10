@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will You Be My Valentine? 💕</title>
+    <!-- EmailJS - sends email automatically without opening mail app -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        // ⚠️ SETUP: Replace these 3 values with your EmailJS credentials
+        // Sign up free at https://emailjs.com → add Gmail service → create template
+        const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";   // Account → API Keys
+        const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";   // Email Services tab
+        const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";  // Email Templates tab
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+    </script>
     <style>
         * {
             margin: 0;
@@ -486,9 +496,9 @@
             launchConfetti();
 
             const messages = [
-                "Really? Click again if you're sure! 💕",
-                "Are you absolutely sure? 🥰",
-                "Almost there! One more click! 💖✨",
+                "Click again💕",
+                "Are you sure? 🥰",
+                "One more click! 💖✨",
                 "Yay! You just made me the happiest! 💕🎉"
             ];
 
@@ -499,15 +509,18 @@
             }
         }
 
-        /* ── Email notification ── */
+        /* ── Email notification (auto-sends via EmailJS, no mail app opens) ── */
         function sendEmail() {
-            const subject = encodeURIComponent('💕 Valentine Response - She Said YES!');
-            const body    = encodeURIComponent(
-                'Congratulations! She wants to be your Valentine! 💖🎉\n\n'
-                + 'She clicked YES on your Valentine card!\n\n'
-                + 'Time: ' + new Date().toLocaleString()
-            );
-            window.location.href = `mailto:rianbist3@gmail.com?subject=${subject}&body=${body}`;
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                to_email : "rianbist3@gmail.com",
+                subject  : "💕 Valentine Response - She Said YES!",
+                message  : "She said YES! 💖🎉\n\nShe clicked YES on your Valentine card!\n\nTime: " + new Date().toLocaleString(),
+                reply_to : "rianbist3@gmail.com"
+            }).then(() => {
+                console.log("💌 Email sent successfully!");
+            }).catch((err) => {
+                console.error("Email failed:", err);
+            });
         }
 
         /* ── Init ── */
