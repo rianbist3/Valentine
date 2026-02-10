@@ -450,14 +450,14 @@
         // The ONLY solution is to call audio.play() synchronously inside a real
         // user gesture. We hook it into sayYes() so music starts the moment
         // she taps "Yes! 💕" — feels instant and natural, no banner needed.
-        let musicStarted = true;
+        let musicStarted = false;
 
         function startMusic() {
             if (musicStarted) return;
             const music = document.getElementById('bgMusic');
             music.play().then(() => {
                 musicStarted = true;
-            }).catch(e => console.log('Audio play pass:', e));
+            }).catch(e => console.log('Audio play false:', e));
         }
     </script>
 </body>
