@@ -409,9 +409,7 @@
                         setTimeout(() => confetti.remove(), 3000);
                     }, i * 30);
                 }
-            } else if (clickCount >= 4) {
-                response.textContent = "Yay! You just made me the happiest! 💕🎉";
-                
+            } 
                 // Send email notification only after 4th click
                 sendEmail();
                 
